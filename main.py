@@ -17,7 +17,7 @@ roles = ["Architect" , "Cricketer" , "Commentator" , "News Reader" , "Business M
 emotion = st.selectbox("Choose an emotion :",emotions)
 role = st.selectbox("Choose a personality :",roles)
 
-input = st.text_input("Enter what you want them to say?")
+input = st.text_input("Enter your message")
 
 template = "Assume the role of a {emotion}{role}. How would you say the following - {input}. The response must have language and vocbulary used by a typical {role}. Make the response atlease 10 words, exagerrate if the input is very simple. Just return the answer in your response, do not add any explanations or fluff from your end. "
 
@@ -25,6 +25,6 @@ hwtsi_prompt = PromptTemplate.from_template(template)
 
 hwtsi_chain = hwtsi_prompt|llm
 
-if st.button("SAY IT"):
+if st.button("HOW WOULD THEY SAY IT?"):
     response = hwtsi_chain.invoke({"emotion":emotion,"role":role,"input":input})
     st.write(response.content)
