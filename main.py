@@ -1,28 +1,30 @@
-import streamlit as st
 import os
-from langchain_core.prompts import PromptTemplate
 from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_core.prompts import PromptTemplate
+import streamlit as st
+
 
 os.environ['GOOGLE_API_KEY'] = st.secrets['GOOGLE_API_KEY']
+
 llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
 
-template = "Generate {number} tweets on {topic}. Include only the tweet(s) in your response."
+st.header("How would they say it?")
+st.subheader("How would emptional personalities say something?")
 
-tweet_prompt = PromptTemplate.from_template(template)
+emotions= ["Happy", "Sad" , "Angry", "Fearful", "Surprised" , "Disgusted" , "Loving" , "Guilty" , "Ashamed" , "Proud"]
+roles = ["Architect" , "Cricketer" , "Commentator" , "News Reader" , "Business Manager" , "Policeman" , "Gangster" , "Ninja" , "Masterchef" , "Ghost" , "Commando", "Poet"]
 
-tweet_chain = tweet_prompt|llm 
+emotion = st.selectbox("Choose an emotion :",emotions)
+role = st.selectbox("Choose a personality :",roles)
 
+input = st.text_input("Enter what you want them to say?")
 
+template = "Assume the role of a {emotion}{role}. How would you say the following - {input}. The response must have language and vocbulary used by a typical {role}. Make the response atlease 10 words, exagerrate if the input is very simple. Just return the answer in your response, do not add any explanations or fluff from your end. "
 
-#print(response.content)
+hwtsi_prompt = PromptTemplate.from_template(template)
 
-st.header("Tweet Generator Yeah!")
-st.subheader("Generate Tweets using Generative AI")
+hwtsi_chain = hwtsi_prompt|llm
 
-topic = st.text_input("Topic")
-
-number = st.number_input("Number of Tweets",min_value=1,max_value=10,value=1,step=1)
-
-if st.button("Generate"):
-    response = tweet_chain.invoke({"number":number,"topic":topic})
+if st.button("SAY IT"):
+    response = hwtsi_chain.invoke({"emotion":emotion,"role":role,"input":input})
     st.write(response.content)
