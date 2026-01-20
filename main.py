@@ -9,7 +9,7 @@ os.environ['GOOGLE_API_KEY'] = st.secrets['GOOGLE_API_KEY']
 llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
 
 st.header("How would they say it?")
-st.subheader("How would emptional personalities say something?")
+st.subheader("How would emotional personalities say something?")
 
 emotions= ["Happy", "Sad" , "Angry", "Fearful", "Surprised" , "Disgusted" , "Loving" , "Guilty" , "Ashamed" , "Proud"]
 roles = ["Architect" , "Cricketer" , "Commentator" , "News Reader" , "Business Manager" , "Policeman" , "Gangster" , "Ninja" , "Masterchef" , "Ghost" , "Commando", "Poet"]
